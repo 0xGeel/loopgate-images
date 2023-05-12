@@ -6,3 +6,7 @@
 
 # Environment variables
 /env.ts
+.env
+
+# Uploads
+/_uploads
