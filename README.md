@@ -1,8 +1,12 @@
-# Node.js + TypeScript Starter
+# Loopgate NodeJS Images
 
 ![](../../actions/workflows/ci.yml/badge.svg)
 
 [![](https://railway.app/button.svg)](https://railway.app/template/8AWlL5?referralCode=bonus)
+
+A simple NodeJS app to handle file uploads from the Loopgate App to Pinata.
+
+---
 
 ## Key Features
 
