@@ -1,0 +1,14 @@
+{
+	"files": { "ignore": [".vscode/*", "dist/*", "node_modules/*"] },
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 80
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded"
+		}
+	},
+	"organizeImports": { "enabled": true }
+}

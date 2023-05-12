@@ -1,0 +1,25 @@
+{
+	"name": "node-ts",
+	"version": "0.0.0",
+	"author": "geel",
+	"description": "Node.js & TypeScript starter",
+	"engines": {
+		"node": ">=18.11",
+		"pnpm": ">=7.27"
+	},
+	"scripts": {
+		"dev": "pnpm /dev:.*/",
+		"dev:build": "esbuild dev.ts ./src --bundle --outdir=dist --packages=external --platform=node --sourcemap --watch",
+		"dev:run": "node --inspect --no-warnings --loader ./dist/dev.js --watch dist/src",
+		"build": "esbuild index=./src --bundle --minify --outdir=dist --packages=external --platform=node",
+		"start": "node dist"
+	},
+	"dependencies": {
+		"@types/express": "^4.17.17",
+		"esbuild": "^0.17.18",
+		"express": "^4.18.2"
+	},
+	"devDependencies": {
+		"@types/node": "^20.1.2"
+	}
+}
