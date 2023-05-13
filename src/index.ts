@@ -4,6 +4,7 @@ import express from "express"
 
 // Import local dependencies
 import { apiAuth } from "./middlewares/auth.middleware"
+import { limiter } from "./middlewares/rate-limit.middleware"
 import { startupMessage } from "./utils/ascii.util"
 
 // Configure app, add middlewares
@@ -13,11 +14,12 @@ const app: express.Application = express()
 app.use(express.json())
 app.use(express.urlencoded())
 app.use("/api", apiAuth)
+app.use("/", limiter)
 
 // Import & register routes
+import testRoutes from "./routes/_test.routes"
 import userRoutes from "./routes/_user.routes"
 import submarineRoutes from "./routes/pinata/submarine.routes"
-import testRoutes from "./routes/test.routes"
 
 app.use("/", testRoutes)
 app.use("/api/users", userRoutes)

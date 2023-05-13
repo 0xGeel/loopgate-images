@@ -1,7 +1,7 @@
 import {
 	apiTestController,
 	testController,
-} from "../controllers/test.controller"
+} from "../controllers/_test.controller"
 import { Router } from "express"
 
 const router = Router()
