@@ -3,7 +3,7 @@ import {
 	deleteUser,
 	getUser,
 	updateUser,
-} from "../controllers/user.controller"
+} from "../controllers/_user.controller"
 import { Router } from "express"
 
 const router = Router()

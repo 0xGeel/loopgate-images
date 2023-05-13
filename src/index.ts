@@ -1,25 +1,29 @@
-// Import dependencies
+// Import external dependencies
 import dotenv from "dotenv"
 import express from "express"
 
-// Configure app
+// Import local dependencies
+import { apiAuth } from "./middlewares/auth.middleware"
+import { startupMessage } from "./utils/ascii.util"
+
+// Configure app, add middlewares
 dotenv.config()
 const port = process.env.PORT || 1337
 const app: express.Application = express()
 app.use(express.json())
 app.use(express.urlencoded())
+app.use("/api", apiAuth)
 
 // Import & register routes
+import userRoutes from "./routes/_user.routes"
 import submarineRoutes from "./routes/pinata/submarine.routes"
-import userRoutes from "./routes/user.routes"
+import testRoutes from "./routes/test.routes"
 
-app.use("/users", userRoutes)
-app.use("/pinata/submarine", submarineRoutes)
+app.use("/", testRoutes)
+app.use("/api/users", userRoutes)
+app.use("/api/pinata/submarine", submarineRoutes)
 
-app.get("/", (req, res) => {
-	res.send("Hello world!")
-})
-
+// 🚀 🚀 🚀
 app.listen(port, () => {
-	console.log(`Loopgate is listening on port ✨${port}✨`)
+	startupMessage(port)
 })
