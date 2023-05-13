@@ -27,6 +27,3 @@ export const uploadEngine = multer({
 		}
 	},
 })
-
-// Todo: Look into multi uploads.
-// .array("uploadedImages", 50)
