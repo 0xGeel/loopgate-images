@@ -20,7 +20,6 @@ app.use("/", limiter)
 import testRoutes from "./routes/_test.routes"
 import userRoutes from "./routes/_user.routes"
 import submarineRoutes from "./routes/pinata/submarine.routes"
-
 app.use("/", testRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/pinata/submarine", submarineRoutes)

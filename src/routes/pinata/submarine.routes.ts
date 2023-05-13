@@ -1,4 +1,7 @@
-import { uploadFileOrFolder } from "../../controllers/pinata/submarine.controller"
+import {
+	getSubmarinedContent,
+	uploadFileOrFolder,
+} from "../../controllers/pinata/submarine.controller"
 import { uploadEngine } from "../../middlewares/multer.middleware"
 import { Router } from "express"
 
@@ -9,5 +12,7 @@ router.post(
 	uploadEngine.single("uploadedImages"),
 	uploadFileOrFolder,
 )
+
+router.get("/content", getSubmarinedContent)
 
 export default router
