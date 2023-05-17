@@ -14,16 +14,16 @@ export const uploadEngine = multer({
 	},
 	fileFilter: (_req, file, cb) => {
 		if (
-			file.mimetype === "image/png" ||
-			file.mimetype === "image/jpg" ||
-			file.mimetype === "image/jpeg"
+			file.mimetype !== "image/png" &&
+			file.mimetype !== "image/jpg" &&
+			file.mimetype !== "image/jpeg"
 		) {
-			cb(null, true)
-		} else {
 			cb(null, false)
 			const err = new Error("Only .png, .jpg and .jpeg format allowed!")
 			err.name = "FileExtensionError"
 			return cb(err)
 		}
+
+		cb(null, true)
 	},
 })
