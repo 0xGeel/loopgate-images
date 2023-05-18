@@ -1,4 +1,6 @@
+import { CC_WALLET } from "../../config/cc/constants"
 import { getOwnershipData } from "../../services/cc/cc.service"
+import { getFlatIgnoreList } from "../../services/cc/getFlatIgnoreList"
 import { supabaseClient } from "../../utils/supabase.util"
 import { Request, Response } from "express"
 
@@ -8,15 +10,35 @@ export const getHolders = async (_req: Request, res: Response) => {
 		.select("*")
 
 	if (error || !data) {
-		return res.status(500).json({ message: "Internal server error" })
+		return res
+			.status(500)
+			.json({ message: "Unable to retrieve data from Supabase" })
 	}
 
 	return res.status(200).json(data)
 }
 
-export const updateHolders = async (req: Request, res: Response) => {
-	// 1. Query TheGraph for CC holders
-	const owners = await getOwnershipData()
+/**
+ * 1. 💿 Store last state of database
+ * 2. Get & format owner data from TheGraph
+ * 3. Delete old data
+ * 4. Insert new data => onFail: rollback
+ */
+export const updateHolders = async (_req: Request, res: Response) => {
+	const { data: fallbackData, error: fallbackError } = await supabaseClient
+		.from("calcium-crew-holders")
+		.select("*")
+
+	if (fallbackError || !fallbackData) {
+		return res
+			.status(500)
+			.json({ message: "Unable to retrieve data from Supabase" })
+	}
+
+	const owners = await getOwnershipData(
+		CC_WALLET.tokenAddress,
+		getFlatIgnoreList(),
+	)
 
 	if (!owners) {
 		return res
@@ -24,16 +46,38 @@ export const updateHolders = async (req: Request, res: Response) => {
 			.json({ message: "Unable to retrieve data from TheGraph" })
 	}
 
-	// 2. Delete previous DB
-	// const { data: deleteData, error: deleteError } = await supabaseClient
-	// 	.from("calcium-crew-holders")
-	// 	.delete()
-	// 	.eq("*", "*")
+	const { error: deleteError } = await supabaseClient
+		.from("calcium-crew-holders")
+		.delete()
+		.neq("id", 0)
 
-	// if (deleteError || !deleteData) {
-	// 	return res.status(500).json({ message: "Internal server error" })
-	// }
+	if (deleteError) {
+		return res
+			.status(500)
+			.json({ message: "Unable to delete outdated holder data from Supabase" })
+	}
 
-	// 3. Update DB with TheGraph Data
-	return res.status(200).json({ owners })
+	const { error: insertError } = await supabaseClient
+		.from("calcium-crew-holders")
+		.insert(
+			owners.map((o) => ({
+				amount: o.amount,
+				cc_ids: o.cc_ids,
+				eth_address: o.eth_address,
+			})),
+		)
+
+	if (insertError) {
+		await supabaseClient.from("calcium-crew-holders").insert(fallbackData)
+
+		return res
+			.status(500)
+			.json({ message: "Unable to add updated holder data to Supabase" })
+	}
+
+	const end = new Date()
+
+	return res.status(200).json({
+		message: `Calcium Crew Holder stats have been updated on ${end.toISOString()}.`,
+	})
 }

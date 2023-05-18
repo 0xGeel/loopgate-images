@@ -4,21 +4,21 @@ export interface Database {
 			"calcium-crew-holders": {
 				Row: {
 					amount: number
-					cc_ids: number[]
+					cc_ids: string[]
 					created_at: string
 					eth_address: string
 					id: number
 				}
 				Insert: {
 					amount: number
-					cc_ids: number[]
+					cc_ids: string[]
 					created_at?: string
 					eth_address: string
 					id?: number
 				}
 				Update: {
 					amount?: number
-					cc_ids?: number[]
+					cc_ids?: string[]
 					created_at?: string
 					eth_address?: string
 					id?: number
@@ -148,7 +148,21 @@ export interface Database {
 	}
 }
 
-export interface Owner {
+export interface Holder {
 	eth_address: string
 	amount: number
+	cc_ids: string[]
+}
+
+export interface TheGraphResponse {
+	nonFungibleTokens: {
+		nftID: string
+		slots: {
+			id: string
+			account: {
+				id: string
+				address: string
+			}
+		}[]
+	}[]
 }
