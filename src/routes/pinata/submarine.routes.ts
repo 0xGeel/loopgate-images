@@ -7,7 +7,7 @@ import { Router } from "express"
 
 const router = Router()
 
-router.post("/upload", uploadEngine.single("uploadedFiles"), uploadFileOrFolder)
+router.post("/upload", uploadEngine.single("file"), uploadFileOrFolder)
 
 // @DEV NOTE: Look into multi uploads. We currently use `.single("uploadedFiles").
 // We could use .array("uploadedFiles", 50), but the controller needs to be changed to handle that.
