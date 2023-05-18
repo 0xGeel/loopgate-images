@@ -1,4 +1,5 @@
 import { CC_WALLET } from "../../config/cc/constants"
+import { serverAuth } from "../../middlewares/auth.middleware"
 import { getOwnershipData } from "../../services/cc/cc.service"
 import { getFlatIgnoreList } from "../../services/cc/getFlatIgnoreList"
 import { supabaseClient } from "../../utils/supabase.util"
@@ -24,7 +25,9 @@ export const getHolders = async (_req: Request, res: Response) => {
  * 3. Delete old data
  * 4. Insert new data => onFail: rollback
  */
-export const updateHolders = async (_req: Request, res: Response) => {
+export const updateHolders = async (req: Request, res: Response) => {
+	serverAuth(req, res)
+
 	const { data: fallbackData, error: fallbackError } = await supabaseClient
 		.from("calcium-crew-holders")
 		.select("*")
@@ -78,6 +81,6 @@ export const updateHolders = async (_req: Request, res: Response) => {
 	const end = new Date()
 
 	return res.status(200).json({
-		message: `Calcium Crew Holder stats have been updated on ${end.toISOString()}.`,
+		message: `Calcium Crew Holder stats have been updated on ${end.toISOString()}`,
 	})
 }

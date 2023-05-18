@@ -2,6 +2,7 @@
 import cors from "cors"
 import dotenv from "dotenv"
 import express from "express"
+import cron from "node-cron"
 
 // Import local dependencies
 import { apiAuth } from "./middlewares/auth.middleware"
@@ -13,6 +14,9 @@ import testRoutes from "./routes/_test.routes"
 import userRoutes from "./routes/_user.routes"
 import ccRoutes from "./routes/cc/cc.router"
 import submarineRoutes from "./routes/pinata/submarine.routes"
+
+// Import schedulers
+import { updateHolders } from "./schedule/updateHolders.schedule"
 
 // Configure app, add middlewares
 dotenv.config()
@@ -33,4 +37,6 @@ app.use("/api/pinata/submarine", submarineRoutes)
 // 🚀 🚀 🚀
 app.listen(port, () => {
 	startupMessage(port)
+
+	cron.schedule("7 * * * *", updateHolders) // Update every HH:07
 })
