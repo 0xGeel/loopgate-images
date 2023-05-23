@@ -1,7 +1,7 @@
 export interface Database {
 	public: {
 		Tables: {
-			"calcium-crew-holders": {
+			calcium_crew_holders: {
 				Row: {
 					amount: number
 					cc_ids: string[]
@@ -36,20 +36,6 @@ export interface Database {
 				Update: {
 					content_id?: number
 					content_name?: string
-				}
-			}
-			roles: {
-				Row: {
-					role_id: number
-					role_name: string
-				}
-				Insert: {
-					role_id?: number
-					role_name: string
-				}
-				Update: {
-					role_id?: number
-					role_name?: string
 				}
 			}
 			unlock_criteria: {
@@ -105,20 +91,6 @@ export interface Database {
 					name?: string | null
 					owner?: string
 					updated_at?: string | null
-				}
-			}
-			users: {
-				Row: {
-					eth_address: string
-					role_id: number
-				}
-				Insert: {
-					eth_address: string
-					role_id: number
-				}
-				Update: {
-					eth_address?: string
-					role_id?: number
 				}
 			}
 		}

@@ -9,6 +9,7 @@ declare global {
 			LOOPGATE_SERVER_KEY: string
 			SUPABASE_URL: string
 			SUPABASE_ANON: string
+			SUPABASE_SERVICE_ROLE: string
 			THEGRAPH_HOSTED_SERVICE_URL: string
 		}
 	}

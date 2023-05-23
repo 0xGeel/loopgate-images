@@ -7,7 +7,7 @@ import { Request, Response } from "express"
 
 export const getHolders = async (_req: Request, res: Response) => {
 	const { data, error } = await supabaseClient
-		.from("calcium-crew-holders")
+		.from("calcium_crew_holders")
 		.select("*")
 
 	if (error || !data) {
@@ -29,7 +29,7 @@ export const updateHolders = async (req: Request, res: Response) => {
 	serverAuth(req, res)
 
 	const { data: fallbackData, error: fallbackError } = await supabaseClient
-		.from("calcium-crew-holders")
+		.from("calcium_crew_holders")
 		.select("*")
 
 	if (fallbackError || !fallbackData) {
@@ -50,7 +50,7 @@ export const updateHolders = async (req: Request, res: Response) => {
 	}
 
 	const { error: deleteError } = await supabaseClient
-		.from("calcium-crew-holders")
+		.from("calcium_crew_holders")
 		.delete()
 		.neq("id", 0)
 
@@ -61,7 +61,7 @@ export const updateHolders = async (req: Request, res: Response) => {
 	}
 
 	const { error: insertError } = await supabaseClient
-		.from("calcium-crew-holders")
+		.from("calcium_crew_holders")
 		.insert(
 			owners.map((o) => ({
 				amount: o.amount,
@@ -71,7 +71,7 @@ export const updateHolders = async (req: Request, res: Response) => {
 		)
 
 	if (insertError) {
-		await supabaseClient.from("calcium-crew-holders").insert(fallbackData)
+		await supabaseClient.from("calcium_crew_holders").insert(fallbackData)
 
 		return res
 			.status(500)
