@@ -12,18 +12,18 @@ export const uploadEngine = multer({
 	limits: {
 		fileSize: 500 * 1024 * 1024, // 500 MB
 	},
-	fileFilter: (_req, file, cb) => {
-		if (
-			file.mimetype !== "image/png" &&
-			file.mimetype !== "image/jpg" &&
-			file.mimetype !== "image/jpeg"
-		) {
-			cb(null, false)
-			const err = new Error("Only .png, .jpg and .jpeg format allowed!")
-			err.name = "FileExtensionError"
-			return cb(err)
-		}
+	// fileFilter: (_req, file, cb) => {
+	// 	if (
+	// 		file.mimetype !== "image/png" &&
+	// 		file.mimetype !== "image/jpg" &&
+	// 		file.mimetype !== "image/jpeg"
+	// 	) {
+	// 		cb(null, false)
+	// 		const err = new Error("Only .png, .jpg and .jpeg format allowed!")
+	// 		err.name = "FileExtensionError"
+	// 		return cb(err)
+	// 	}
 
-		cb(null, true)
-	},
+	// 	cb(null, true)
+	// },
 })
